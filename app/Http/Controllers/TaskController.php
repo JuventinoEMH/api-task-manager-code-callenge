@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Models\Project;
 
-//use App\Http\Requests\StoreTaskRequest;
-//use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Support\Facades\Gate;
+
 
 
 class TaskController extends Controller
@@ -19,21 +22,35 @@ class TaskController extends Controller
         return Task::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    //'title', 'description', 'status', 'due_date're(Request $request)
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request, $projectId)
     {
-         $fields =  $request ->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'status' => 'required|in:pending,in_progress,completed',
-            'due_date' => 'required|date|date_format:Y-m-d H:i:s',
-        ]);
-        $task = Task::create($fields);
 
-        return ['task' => $task];
+        $project = Project::findOrFail($projectId);
+
+
+        if (Gate::denies('create-task', $project)) {
+            return response()->json(['error' => 'You do not have permission to create tasks for this project.'], 403);
+        }
+
+
+        $fields = $request->validated();
+
+        if (empty($fields['status'])) {
+            $fields['status'] = 'pending';
+        }
+        if (strtotime($fields['due_date']) > strtotime($project->deadline)) {
+            return response()->json(['error' => 'The due date cannot be after the project deadline.'], 400);
+        }
+
+
+        $fields['project_id'] = $project->id;
+        $fields['user_id'] = $request->user()->id;
+
+
+        $task = $request->user()->tasks()->create($fields);
+
+
+        return response()->json(['task' => $task], 201);
     }
 
     /**
@@ -47,24 +64,30 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, $projectId, Task $task)
     {
-        $fields =  $request ->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'status' => 'required|in:pending,in_progress,completed',
-            'due_date' => 'required|date|date_format:Y-m-d H:i:s',
-        ]);
+
+        if ($task->project_id !== (int) $projectId) {
+            return response()->json(['error' => 'This task does not belong to the specified project.'], 403);
+        }
+        Gate::authorize('modify', $task);
+        $fields = $request->validated();
+        if (empty($fields['status'])) {
+            $fields['status'] = 'pending';
+        }
         $task->update($fields);
-        return response()->json($task, 200);
+        return response()->json($task);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Task $task)
     {
+
+        Gate::authorize('modify', $task);
         $task->delete();
-        return ['message' => 'The task was deleted'];
+        return response()->json(['message' => 'The task was successfully deleted!'], 200);
     }
 }

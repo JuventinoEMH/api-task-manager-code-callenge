@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\Task;
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 //use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -64,6 +67,29 @@ class ProjectController extends Controller
         $project->delete();
 
         return response()->json(['message' => 'The project was successfully deleted!'], 200);
+    }
+
+    public function getStats($projectId)
+    {
+
+        $project = Project::findOrFail($projectId);
+
+
+        $tasks = $project->tasks;
+
+
+        $totalTasks = $tasks->count();
+        $completedTasks = $tasks->where('status','completed')->count();
+        $overdueTasks = $tasks->filter(function ($task) {
+            return Carbon::parse($task->due_date)->isPast() && $task->status !== 'completed';
+        })->count();
+
+
+        return response()->json([
+            'total_tasks' => $totalTasks,
+            'completed_tasks' => $completedTasks,
+            'overdue_tasks' => $overdueTasks,
+        ]);
     }
 
 
