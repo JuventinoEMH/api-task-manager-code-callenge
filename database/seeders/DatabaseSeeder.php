@@ -5,19 +5,29 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Project;
+
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $user = User::factory()
+            ->withPassword('password123')
+            ->create([
+                'name' => 'Admin User',
+                'email' => 'admin@example.com',
+            ]);
+
+
+        Project::factory(3)->create([
+            'user_id' => $user->id,
         ]);
+
+
+        $this->command->info("User created with the following credentials:");
+        $this->command->info("Email: admin@example.com");
+        $this->command->info("Passwodr: password123");
     }
 }
