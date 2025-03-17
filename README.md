@@ -11,7 +11,7 @@
 
  to generate the APP_KEY run **php artisan key:generate** 
  
- make the migrations with **php artisan migrate** and the run **php artisan db::seed** to seed the database
+ make the migrations with **php artisan migrate** and the run **php artisan db:seed** to seed the database
  
 in the output console you have the credentials.
 
