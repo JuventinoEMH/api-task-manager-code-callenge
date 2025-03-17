@@ -19,7 +19,7 @@ class ProjectFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
-            'deadline' => Carbon::now()->addDays(rand(1, 3)),
+            'deadline' => Carbon::now()->addDays(rand(3, 10)),
             'user_id' => User::factory(),
         ];
     }

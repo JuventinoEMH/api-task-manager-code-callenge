@@ -17,8 +17,12 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $user = User::create($fields);
-        return $user;
+//        $user = User::create($fields);
+//        return $user;
+        User::create($fields);
+
+        // Redirigir a una página de éxito o a otra vista, como la vista de proyectos
+        return redirect()->route('projects.index');
 
     }
 
@@ -43,6 +47,7 @@ class AuthController extends Controller
 
 
         $token = $user->createToken('authToken')->plainTextToken;
+
 
         return response()->json(['user' => $user, 'token' => $token], 200);
     }

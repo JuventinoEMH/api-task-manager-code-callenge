@@ -21,7 +21,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        //return Project::all();
+
         return Project::all();
+
     }
 
     /**
@@ -41,6 +44,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return response()->json($project, 200);
+
     }
 
     /**
@@ -91,6 +95,8 @@ class ProjectController extends Controller
             'overdue_tasks' => $overdueTasks,
         ]);
     }
+
+
 
 
 }
