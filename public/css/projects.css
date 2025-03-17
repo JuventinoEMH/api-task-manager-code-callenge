@@ -1,0 +1,113 @@
+/* projects.css */
+
+/* Estilos generales */
+body {
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+}
+
+/* Tarjetas de proyectos */
+.card {
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.card p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.card .card-footer {
+    margin-top: 1rem;
+}
+
+.card-footer a,
+.card-footer button {
+    background-color: #fff;
+    color: #1D4ED8; /* Azul para el texto */
+    border: 2px solid #1D4ED8; /* Borde azul */
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 0.5rem;
+    display: inline-block;
+    transition: all 0.3s ease-in-out; /* Transición suave */
+}
+
+.card-footer a:hover,
+.card-footer button:hover {
+    background-color: #1D4ED8; /* Fondo azul */
+    color: white; /* Texto blanco */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+}
+
+/* Estilos para la barra de navegación */
+header nav a {
+    text-decoration: none;
+    color: #1D4ED8; /* Azul */
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    border-radius: 30px; /* Bordes redondeados más suaves */
+    background-color: white; /* Fondo blanco */
+    border: 2px solid #1D4ED8; /* Borde azul */
+    transition: all 0.3s ease; /* Transición suave */
+    display: inline-block;
+    margin-left: 15px;
+}
+
+header nav a:hover {
+    color: white;
+    background-color: #1D4ED8; /* Fondo azul */
+    border-color: #1D4ED8; /* Borde azul */
+    transform: scale(1.05); /* Efecto de aumento al hacer hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+}
+
+/* Estilos para el título en el encabezado */
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Estilo para el fondo del encabezado */
+header {
+    background-color: #1D4ED8; /* Azul más oscuro */
+    color: white;
+    padding: 20px 0;
+}
