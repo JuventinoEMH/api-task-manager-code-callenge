@@ -5,7 +5,7 @@
 > 
 > **git clone** https://github.com/JuventinoEMH/api-task-manager-code-callenge.git
  
- inside your folder run **composer install** 
+ inside your project run **composer install** 
  
  copy the .env.example and paste it by changing the name to **.env**
 
