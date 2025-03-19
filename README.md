@@ -46,9 +46,9 @@ GET	/api/projects/{id}/tasks	List tasks in a project
 
 POST	/api/projects/{id}/tasks	Create a task in a project
 
-PUT	/api/tasks/{id}	Update a task
+PUT	/api/projects/{id}/tasks/{id}	Update a task
 
-DELETE	/api/tasks/{id}	Delete a task
+DELETE	/api/projects/{id}/tasks/{id}	Delete a task
 
 GET	/api/projects/{id}/stats	Get project statistics
 
